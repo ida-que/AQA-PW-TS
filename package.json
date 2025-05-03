@@ -1,0 +1,26 @@
+{
+  "name": "aqa-pw-ts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test:ui": "npx playwright test",
+    "ui-mode": "npx playwright test --ui",
+    "run-codegen": "npx playwright codegen"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ida-que/AQA-PW-TS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ida-que/AQA-PW-TS/issues"
+  },
+  "homepage": "https://github.com/ida-que/AQA-PW-TS#readme",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.15.3"
+  }
+}
