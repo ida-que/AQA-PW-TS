@@ -13,6 +13,7 @@
 // - no all spaces
 // - at least one uppercase letter
 // - at least one lowercase letter
+// Additionally, write negative tests for the login.
 
 import test, { expect } from '@playwright/test';
 
