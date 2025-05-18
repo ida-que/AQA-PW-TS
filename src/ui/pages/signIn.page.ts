@@ -11,8 +11,8 @@ export class SignInPage extends SalesPortalPage {
     uniqueElement = this.rememberMeCheckbox;
 
     async fillCredentials(email: string, password: string) {
-        await this.emailInput.fill(`${process.env.USER_LOGIN}`);
-        await this.passwordInput.fill(`${process.env.USER_PASSWORD}`);
+        await this.emailInput.fill(`${email}`);
+        await this.passwordInput.fill(`${password}`);
     }
     async clickOnLoginButton() {
         await this.loginButton.click();
