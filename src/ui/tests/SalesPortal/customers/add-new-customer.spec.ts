@@ -28,7 +28,7 @@ test.describe("[UI] [Sales Portal] [Customers]", async () => {
     await addNewCustomerPage.clickSaveNewCustomer();
     await customersPage.waitForOpened();
     await customersPage.waitForNotification(NOTIFICATIONS.CUSTOMER_CREATED);
-    const createdCustomer = await customersPage.getInfoCreatedCustomer(data.email);
+    const createdCustomer = await customersPage.getCustomerData(data.email);
     await expect(createdCustomer.email).toEqual(data.email);
     await expect(createdCustomer.name).toEqual(data.name);
     await expect(createdCustomer.country).toEqual(data.country);
