@@ -1,7 +1,7 @@
 import { Page } from "@playwright/test";
 import { HomePage } from "../ui/pages/home.page";
-import { CustomersPage } from "../ui/pages/customers/customers.page";
 import { AddNewCustomerPage } from "../ui/pages/customers/add-new-customer.page";
+import { CustomersPage } from "../ui/pages";
 
 export class Pages {
   public homePage: HomePage;

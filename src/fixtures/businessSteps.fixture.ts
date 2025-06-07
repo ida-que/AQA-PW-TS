@@ -1,7 +1,8 @@
-import { SALES_PORTAL_URL, USER_LOGIN, USER_PASSWORD } from "../config/environment";
+import { USER_LOGIN, USER_PASSWORD } from "../config/environment";
 import { generateCustomerData } from "../data/customers/generateCustomer.data";
 import { ICustomer } from "../types/customer.types";
 import { test as base, expect } from "../fixtures/pages.fixture";
+import { SignInPage } from "../ui/pages/signIn.page";
 
 
 interface IBusinessSteps {
@@ -10,19 +11,18 @@ interface IBusinessSteps {
 }
 
 export const test = base.extend<IBusinessSteps>({
-  loginAsLocalUser: async ({ page, homePage }, use) => {
+  loginAsLocalUser: async ({ homePage, signInPage }, use) => {
     await use(async () => {
-      await page.goto(SALES_PORTAL_URL);
-      await page.locator("#emailinput").fill(USER_LOGIN);
-      await page.locator("#passwordinput").fill(USER_PASSWORD);
-      await page.getByRole("button", { name: "Login" }).click();
+      await signInPage.openPortal();
+      await signInPage.fillCredentials({ email: USER_LOGIN, password: USER_PASSWORD });
+      await signInPage.clickLogin();
       await homePage.waitForOpened();
     });
   },
 
-createNewCustomer: async ({ homePage, addNewCustomerPage, customersPage }, use) => {
+createNewCustomer: async ({ addNewCustomerPage, customersPage, sideMenu }, use) => {
     await use(async (params?: Partial<ICustomer>) => {
-      await homePage.clickModuleButton('Customers');
+      await sideMenu.clickMenuItem('Customers');
       await customersPage.waitForOpened();
       await customersPage.clickAddNewCustomer();
       await addNewCustomerPage.waitForOpened();

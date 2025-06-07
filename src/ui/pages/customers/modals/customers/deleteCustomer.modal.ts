@@ -1,8 +1,10 @@
-import { Modal } from "./modal.page";
+import { Modal } from "../modal.page";
 
 export class DeleteCustomerModal extends Modal {
-  readonly deleteButton = this.uniqueElement.getByRole('button', { name: 'Yes, Delete' });
-  readonly cancelButton = this.uniqueElement.getByRole('button', { name: 'Cancel' });
+  readonly deleteButton = this.modalContainer.getByRole('button', { name: 'Yes, Delete' });
+  readonly cancelButton = this.modalContainer.getByRole('button', { name: 'Cancel' });
+
+  readonly uniqueElement = this.deleteButton;
 
   async clickDelete() {
     await this.deleteButton.click();

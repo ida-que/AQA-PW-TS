@@ -1,24 +1,31 @@
 import { Locator } from "@playwright/test";
-import { SalesPortalPage } from "../salesPortal.page";
-import { ICustomer, TCustomerInTable } from "../../../types/customer.types";
 import { COUNTRIES } from "../../../data/customers/countries.data";
-import { FilterModal } from "./modals/customers/filter.modal";
+import { TCustomerInTable } from "../../../types";
+import { SalesPortalPage } from "../salesPortal.page";
 import { DeleteCustomerModal } from "./modals/customers/deleteCustomer.modal";
+import { FilterModal } from "./modals/filter.modal";
+
 
 export class CustomersPage extends SalesPortalPage {
+  //Modals/dialogs
   readonly filterModal = new FilterModal(this.page);
   readonly deleteCustomerModal = new DeleteCustomerModal(this.page);
-
+  // Headers in menu
   readonly addNewCustomerButton = this.page.getByRole("button", { name: "Add Customer" });
-
   readonly filterButton = this.page.getByRole("button", { name: "Filter" });
+  readonly searchInput = this.page.locator('input[type="search"]');
+  readonly searchButton = this.page.locator('#search-customer');
+  readonly chipButton = this.page.locator('.chip');
+  readonly searchChipButton = this.page.locator('div[data-chip-customers="search"]');
 
+  // Table headers
   readonly tableHeader = this.page.locator("#table-customers th div");
   readonly emailHeader = this.tableHeader.filter({ hasText: "Email" });
   readonly nameHeader = this.tableHeader.filter({ hasText: "Name" });
   readonly countryHeader = this.tableHeader.filter({ hasText: "Country" });
   readonly createdOnHeader = this.tableHeader.filter({ hasText: "Created On" });
 
+  // Table body
   readonly tableRow = this.page.locator("#table-customers tbody tr");
   readonly tableRowByEmail = (email: string) => this.tableRow.filter({ has: this.page.getByText(email) });
 
@@ -29,6 +36,7 @@ export class CustomersPage extends SalesPortalPage {
   readonly editButton = (email: string) => this.tableRowByEmail(email).getByTitle("Edit");
   readonly detailsButton = (email: string) => this.tableRowByEmail(email).getByTitle("Details");
   readonly deleteButton = (email: string) => this.tableRowByEmail(email).getByTitle("Delete");
+  readonly emptyTableRow = this.page.locator('td.fs-italic');
 
   readonly uniqueElement = this.addNewCustomerButton;
 
@@ -100,6 +108,20 @@ export class CustomersPage extends SalesPortalPage {
 
   async isCustomerInTable(customerEmail: string): Promise<boolean> {
     return (await this.tableRowByEmail(customerEmail).count()) > 0;
+  }
+
+  async fillSearch(value: string | number) {
+    await this.searchInput.fill(String(value));
+  }
+
+  async clickSearch() {
+    await this.searchButton.click();
+  }
+
+  async search(value: string | number) {
+    await this.fillSearch(value);
+    await this.clickSearch();
+    await this.waitForOpened();
   }
 
 }
