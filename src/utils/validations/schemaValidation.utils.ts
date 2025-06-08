@@ -10,7 +10,7 @@ export function validateSchema(expectedSchema: object, body: object) {
   if (!isValid) {
     console.log('Data is not valid according to the schema.');
     console.log(validate.errors);
-    expect.soft(validate.errors, 'Should not have json schema errors').toMatchObject([]);
+    expect.soft(validate.errors, 'Should not have json schema errors').toBeEmpty();
   }
 
   expect.soft(isValid, 'Actual should match expected').toBe(true);
