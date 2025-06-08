@@ -1,11 +1,10 @@
 import { expect } from "@playwright/test";
-import { SalesPortalPage } from "../../../salesPortal.page";
+import { SalesPortalPage } from "../../salesPortal.page";
 
 export abstract class Modal extends SalesPortalPage {
-  readonly uniqueElement = this.page.locator('div[role="dialog"]');
-
-  readonly title = this.uniqueElement.locator('.modal-title');
-  readonly closeButton = this.uniqueElement.locator('button[aria-label="Close"]');
+  readonly modalContainer = this.page.locator(`div[role="dialog"]`);
+  readonly title = this.modalContainer.locator('.modal-title');
+  readonly closeButton = this.modalContainer.locator('button[aria-label="Close"]');
 
   async close() {
     await this.closeButton.click();

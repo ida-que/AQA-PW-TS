@@ -1,25 +1,23 @@
-import test, { expect, Locator } from "@playwright/test";
+import test, { expect } from "@playwright/test";
+import { SALES_PORTAL_URL, USER_LOGIN, USER_PASSWORD } from "../../../../config/environment";
 import { generateCustomerData } from "../../../../data/customers/generateCustomer.data";
 import { NOTIFICATIONS } from "../../../../data/notifications.data";
-import { AddNewCustomerPage } from "../../../pages/customers/add-new-customer.page";
-import { CustomersPage } from "../../../pages/customers/customers.page";
-import { HomePage } from "../../../pages/home.page";
-import { SignInPage } from "../../../pages/signIn.page";
-import { SALES_PORTAL_URL } from "../../../../config/environment";
+import { SignInPage, HomePage, CustomersPage, AddNewCustomerPage, SideMenuComponent } from "../../../pages";
 
-test.describe("[UI] [Sales Portal] [Customers]", async () => {
-  test("e2e - Should create customer with smoke data, notification and table assertions", async ({ page }) => {
+test.describe('[UI] [Sales Portal] [Customers]', () => {
+  test('Should create customer with valid data', async ({ page }) => {
+    const signInPage = new SignInPage(page);
     const homePage = new HomePage(page);
     const customersPage = new CustomersPage(page);
     const addNewCustomerPage = new AddNewCustomerPage(page);
-    const signInPage = new SignInPage(page);
+    const sideMenu = new SideMenuComponent(page);
+
     await page.goto(SALES_PORTAL_URL);
-    await signInPage.waitForOpened();
-    await signInPage.fillCredentials(`${process.env.USER_LOGIN}`, `${process.env.USER_PASSWORD}`);
-    await signInPage.clickOnLoginButton();
+    await signInPage.fillCredentials({ username: USER_LOGIN, password: USER_PASSWORD });
+    await signInPage.clickLogin();
 
     await homePage.waitForOpened();
-    await homePage.clickModuleButton("Customers");
+    await sideMenu.clickMenuItem('Customers');
     await customersPage.waitForOpened();
     await customersPage.clickAddNewCustomer();
     await addNewCustomerPage.waitForOpened();
@@ -28,10 +26,13 @@ test.describe("[UI] [Sales Portal] [Customers]", async () => {
     await addNewCustomerPage.clickSaveNewCustomer();
     await customersPage.waitForOpened();
     await customersPage.waitForNotification(NOTIFICATIONS.CUSTOMER_CREATED);
-    const createdCustomer = await customersPage.getCustomerData(data.email);
-    await expect(createdCustomer.email).toEqual(data.email);
-    await expect(createdCustomer.name).toEqual(data.name);
-    await expect(createdCustomer.country).toEqual(data.country);
+    const actualCustomer = (await customersPage.getTableData())[0];
+    const expectedCustomer = {
+      email: data.email,
+      name: data.name,
+      country: data.country,
+    };
+    expect(actualCustomer).toMatchObject(expectedCustomer);
   });
 });
 
