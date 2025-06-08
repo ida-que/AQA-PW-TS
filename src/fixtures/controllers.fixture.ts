@@ -7,11 +7,11 @@ interface ISalesPortalControllers {
 }
 
 export const test = base.extend<ISalesPortalControllers>({
-  customersController: async ({}, use) => {
-    await use(new CustomersController());
+  customersController: async ({request}, use) => {
+    await use(new CustomersController(request));
   },
-  signInController: async ({}, use) => {
-    await use(new SignInController());
+  signInController: async ({request}, use) => {
+    await use(new SignInController(request));
   },
 });
 

@@ -1,6 +1,5 @@
-import { Locator } from "@playwright/test";
 import { COUNTRIES } from "../../../data/customers/countries.data";
-import { TCustomerInTable } from "../../../types";
+import { ICustomerInTable, customersSortField } from "../../../types";
 import { SalesPortalPage } from "../salesPortal.page";
 import { DeleteCustomerModal } from "./modals/customers/deleteCustomer.modal";
 import { FilterModal } from "./modals/filter.modal";
@@ -17,6 +16,9 @@ export class CustomersPage extends SalesPortalPage {
   readonly searchButton = this.page.locator('#search-customer');
   readonly chipButton = this.page.locator('.chip');
   readonly searchChipButton = this.page.locator('div[data-chip-customers="search"]');
+
+  // Table
+  readonly table = this.page.locator("#table-customers");
 
   // Table headers
   readonly tableHeader = this.page.locator("#table-customers th div");
@@ -40,6 +42,12 @@ export class CustomersPage extends SalesPortalPage {
 
   readonly uniqueElement = this.addNewCustomerButton;
 
+  async open() {
+    await this.page.evaluate(async () => {
+      await (window as typeof window & { renderCustomersPage: () => Promise<void> }).renderCustomersPage();
+    });
+  }
+
   async clickAddNewCustomer() {
     await this.addNewCustomerButton.click();
   }
@@ -62,7 +70,7 @@ export class CustomersPage extends SalesPortalPage {
     await buttons[action].click();
   }
 
-  async getCustomerData(customerEmail: string): Promise<TCustomerInTable> {
+  async getCustomerData(customerEmail: string): Promise<ICustomerInTable> {
     //variant 1
     // return {
     //   email: await this.emailCell(email).textContent(),
@@ -91,7 +99,7 @@ export class CustomersPage extends SalesPortalPage {
   }
 
   async getTableData() {
-    const tableData: Array<TCustomerInTable> = [];
+    const tableData: Array<ICustomerInTable> = [];
 
     const rows = await this.tableRow.all();
     for (const row of rows) {
@@ -122,6 +130,23 @@ export class CustomersPage extends SalesPortalPage {
     await this.fillSearch(value);
     await this.clickSearch();
     await this.waitForOpened();
+  }
+
+  async clickTableHeader(header: customersSortField) {
+    switch (header) {
+      case 'email':
+        await this.emailHeader.click();
+        break;
+      case 'name':
+        await this.nameHeader.click();
+        break;
+      case 'country':
+        await this.countryHeader.click();
+        break;
+      case 'createdOn':
+        await this.createdOnHeader.click();
+        break;
+    }
   }
 
 }
