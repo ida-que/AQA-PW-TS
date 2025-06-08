@@ -20,7 +20,7 @@ test.describe("[UI] [Sales Portal] [Customers]", async () => {
     const sideMenu = new SideMenuComponent(page);
   
     await page.goto(SALES_PORTAL_URL);
-    await signInPage.fillCredentials({ email: USER_LOGIN, password: USER_PASSWORD });
+    await signInPage.fillCredentials({ username: USER_LOGIN, password: USER_PASSWORD });
     await signInPage.clickLogin();
     await page.goto("https://anatoly-karpovich.github.io/aqa-course-project/#");
     await page.locator("#emailinput").fill("test@gmail.com");

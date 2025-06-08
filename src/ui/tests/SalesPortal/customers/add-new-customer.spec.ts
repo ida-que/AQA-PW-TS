@@ -13,7 +13,7 @@ test.describe('[UI] [Sales Portal] [Customers]', () => {
     const sideMenu = new SideMenuComponent(page);
 
     await page.goto(SALES_PORTAL_URL);
-    await signInPage.fillCredentials({ email: USER_LOGIN, password: USER_PASSWORD });
+    await signInPage.fillCredentials({ username: USER_LOGIN, password: USER_PASSWORD });
     await signInPage.clickLogin();
 
     await homePage.waitForOpened();

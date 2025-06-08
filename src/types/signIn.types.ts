@@ -1,4 +1,19 @@
+import { IResponseFields } from ".";
+
 export interface ICredentials {
-  email: string;
+  username: string;
   password: string;
+}
+
+export interface IUser {
+  _id: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  createdOn: string;
+  roles: string[];
+}
+
+export interface ILoginResponse extends IResponseFields {
+  User: IUser;
 }

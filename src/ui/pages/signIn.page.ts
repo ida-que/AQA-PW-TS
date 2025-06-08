@@ -14,8 +14,8 @@ export class SignInPage extends SalesPortalPage {
   }
 
 
-  async fillCredentials({ email, password }: ICredentials) {
-    await this.fillEmail(email);
+  async fillCredentials({ username, password }: ICredentials) {
+    await this.fillEmail(username);
     await this.fillPassword(password);
   }
   async clickLogin() {
