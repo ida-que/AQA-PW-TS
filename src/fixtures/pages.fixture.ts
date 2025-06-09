@@ -1,8 +1,13 @@
 import { test as base } from "@playwright/test";
-import { HomePage } from "../ui/pages/home.page";
-import { AddNewCustomerPage } from "../ui/pages/customers/add-new-customer.page";
-import { SignInPage } from "../ui/pages/signIn.page";
-import { CustomersPage, EditCustomerPage, SideMenuComponent } from "../ui/pages";
+import {
+  AddNewCustomerPage,
+  CustomersPage,
+  EditCustomerPage,
+  HomePage,
+  SideMenuComponent,
+  SignInPage,
+} from "../ui/pages";
+import { CustomerDetailsPage } from "../ui/pages/customers/customerDetails.page";
 
 
 interface ISalesPortalPages {
@@ -12,6 +17,7 @@ interface ISalesPortalPages {
   signInPage: SignInPage;
   editCustomerPage: EditCustomerPage;
   sideMenu: SideMenuComponent;
+  customerDetailsPage: CustomerDetailsPage;
 }
 
 export const test = base.extend<ISalesPortalPages>({
@@ -32,6 +38,9 @@ export const test = base.extend<ISalesPortalPages>({
   },
   sideMenu: async ({ page }, use) => {
     await use(new SideMenuComponent(page));
+  },
+  customerDetailsPage: async ({ page }, use) => {
+    await use(new CustomerDetailsPage(page));
   },
 });
 

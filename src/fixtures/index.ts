@@ -1,1 +1,1 @@
-export * from './controllers.fixture';
+export * from './mock.fixture';
